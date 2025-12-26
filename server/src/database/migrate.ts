@@ -108,6 +108,25 @@ export async function migrateDatabase() {
       }
 
       if (hasJogoId && !hasGrupoId) {
+        // Verificar se tabela jogos existe para mapear
+        const jogosExists = await dbGet(
+          "SELECT name FROM sqlite_master WHERE type='table' AND name='jogos'"
+        );
+
+        let jogoToGrupo = new Map<number, number>();
+
+        if (jogosExists) {
+          // Migrar dados: precisamos mapear jogo_id para grupo_id
+          const jogos = await dbAll(
+            "SELECT id, grupo_id FROM jogos"
+          ) as Array<{ id: number; grupo_id: number }>;
+
+          jogos.forEach((j) => {
+            jogoToGrupo.set(j.id, j.grupo_id);
+          });
+        } else {
+          console.log("⚠️  Tabela jogos não existe. Rodadas antigas serão descartadas.");
+        }
 
         // Criar nova tabela rodadas com grupo_id (sem constraint UNIQUE para permitir múltiplas rodadas na mesma data)
         await dbRun(`
@@ -127,7 +146,7 @@ export async function migrateDatabase() {
         `);
 
         // Migrar dados apenas se tivermos o mapeamento
-        if (jogoToGrupo.size > 0) {
+        if (jogoToGrupo && jogoToGrupo.size > 0) {
           const rodadasAntigas = await dbAll(
             "SELECT * FROM rodadas"
           ) as any[];
