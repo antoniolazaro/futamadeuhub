@@ -1,0 +1,31 @@
+{
+  "name": "peladahub",
+  "version": "1.0.0",
+  "description": "PeladaHub - Plataforma completa para gestão de jogos de futebol amador",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "vercel-build": "npm run build:server && npm run build"
+  },
+  "keywords": ["futebol", "pelada", "gestão", "esportes", "amador"],
+  "author": "PeladaHub",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SEU_USERNAME/peladahub.git"
+  },
+  "homepage": "https://peladahub.vercel.app",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
+
+
+
+
+
