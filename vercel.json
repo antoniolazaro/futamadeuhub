@@ -3,10 +3,7 @@
   "builds": [
     {
       "src": "server/package.json",
-      "use": "@vercel/node",
-      "config": {
-        "maxDuration": 10
-      }
+      "use": "@vercel/node"
     },
     {
       "src": "client/package.json",
@@ -23,7 +20,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/client/$1"
+      "dest": "client/$1"
     }
   ],
   "env": {
