@@ -166,7 +166,7 @@ Este projeto está sob a licença MIT. Veja o arquivo LICENSE para detalhes.
 
 ⭐ **Deixe uma estrela se gostou do projeto!**
 
-[📱 Acesse agora](https://peladahub.vercel.app) • [🐛 Reportar Bug](https://github.com/SEU_USERNAME/peladahub/issues) • [💡 Sugerir Feature](https://github.com/SEU_USERNAME/peladahub/discussions)
+[📱 Acesse agora](https://futamadeuhub.vercel.app) • [🐛 Reportar Bug](https://github.com/antoniolazaro/futamadeuhub/issues) • [💡 Sugerir Feature](https://github.com/antoniolazaro/futamadeuhub/discussions)
 
 </div>
 

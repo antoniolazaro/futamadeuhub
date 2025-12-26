@@ -17,9 +17,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SEU_USERNAME/peladahub.git"
+    "url": "https://github.com/antoniolazaro/futamadeuhub.git"
   },
-  "homepage": "https://peladahub.vercel.app",
+  "homepage": "https://futamadeuhub.vercel.app",
   "devDependencies": {
     "concurrently": "^8.2.2"
   }
