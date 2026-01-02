@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import api from '../services/api';
 import { AssociadoEstatisticas, Associado } from '../types';
 
 const Estatisticas: React.FC = () => {
-  const [associados, setAssociados] = useState<Associado[]>([]);
   const [estatisticas, setEstatisticas] = useState<AssociadoEstatisticas[]>([]);
   const [periodo, setPeriodo] = useState<'todos' | 'semanal' | 'mensal' | 'anual'>('todos');
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    carregarEstatisticas();
-  }, [periodo]);
-
-  const carregarEstatisticas = async () => {
+  const carregarEstatisticas = useCallback(async () => {
     try {
       const response = await api.get('/associados');
       const associadosData = response.data;
-      setAssociados(associadosData);
 
       const hoje = new Date();
       let inicio: string | undefined;
@@ -54,7 +48,11 @@ const Estatisticas: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [periodo]);
+
+  useEffect(() => {
+    carregarEstatisticas();
+  }, [periodo, carregarEstatisticas]);
 
   if (loading) {
     return <div className="text-center py-8">Carregando...</div>;

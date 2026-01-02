@@ -133,3 +133,4 @@ A súmula anterior era um **modal gigante com muito scroll**:
 
 **A súmula deixou de ser um "modal gigante com scroll" para uma ferramenta profissional e intuitiva!** 🚀⚽
 
+

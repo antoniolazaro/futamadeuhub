@@ -6,9 +6,6 @@ import {
   Confirmacao,
   Presenca,
   TimeRodada,
-  ResultadoRodada,
-  EstatisticaRodada,
-  Eleicao,
   Grupo,
   Partida,
   TimePartida,
@@ -28,9 +25,6 @@ const Jogos: React.FC = () => {
   const [confirmacoes, setConfirmacoes] = useState<Confirmacao[]>([]);
   const [presencas, setPresencas] = useState<Presenca[]>([]);
   const [times, setTimes] = useState<TimeRodada[]>([]);
-  const [resultado, setResultado] = useState<ResultadoRodada[]>([]);
-  const [estatisticas, setEstatisticas] = useState<EstatisticaRodada[]>([]);
-  const [eleicoes, setEleicoes] = useState<Eleicao[]>([]);
   const [partidas, setPartidas] = useState<Partida[]>([]);
   const [partidaSelecionada, setPartidaSelecionada] = useState<Partida | null>(null);
   const [timesPartida, setTimesPartida] = useState<TimePartida[]>([]);
@@ -93,16 +87,11 @@ const Jogos: React.FC = () => {
   const carregarDetalhesRodada = async (rodada: Rodada) => {
     setRodadaSelecionada(rodada);
     try {
-      const [confRes, presRes, timesRes, statsRes, eleicoesRes, resultadoRes, grupoRes, partidasRes] =
+      const [confRes, presRes, timesRes, grupoRes, partidasRes] =
         await Promise.all([
           api.get(`/rodadas/${rodada.id}/confirmacoes`),
           api.get(`/rodadas/${rodada.id}/presencas`),
           api.get(`/rodadas/${rodada.id}/times`),
-          api.get(`/rodadas/${rodada.id}/estatisticas`),
-          api.get(`/rodadas/${rodada.id}/eleicoes`),
-          api
-            .get(`/rodadas/${rodada.id}/resultados`)
-            .catch(() => ({ data: [] })),
           api.get(`/grupos/${rodada.grupo_id}`).catch(() => null),
           api.get(`/rodadas/${rodada.id}/partidas`).catch(() => ({ data: [] })),
         ]);
@@ -110,9 +99,6 @@ const Jogos: React.FC = () => {
       setConfirmacoes(confRes.data);
       setPresencas(presRes.data);
       setTimes(timesRes.data);
-      setEstatisticas(statsRes.data);
-      setEleicoes(eleicoesRes.data);
-      setResultado(resultadoRes.data);
       setPartidas(partidasRes.data || []);
       if (grupoRes?.data) {
         setGrupoSelecionado(grupoRes.data);
@@ -305,18 +291,6 @@ const Jogos: React.FC = () => {
     return times;
   };
 
-  const handleSalvarResultado = async (timeNome: string, gols: number) => {
-    if (!rodadaSelecionada) return;
-    try {
-      await api.post(`/rodadas/${rodadaSelecionada.id}/resultado`, {
-        time_nome: timeNome,
-        gols,
-      });
-      carregarDetalhesRodada(rodadaSelecionada);
-    } catch (error) {
-      console.error("Erro ao salvar resultado:", error);
-    }
-  };
 
   const handleVotarEleicao = async (
     tipo: "craque" | "abacaxi" | "melhor_goleiro",

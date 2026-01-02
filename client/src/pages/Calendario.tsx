@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import api from "../services/api";
 import { Rodada, Grupo, Partida, EstatisticaPartida, TimePartida, Associado } from "../types";
 import {
@@ -26,42 +26,13 @@ const Calendario: React.FC = () => {
   const [timesPartidas, setTimesPartidas] = useState<{[partidaId: number]: TimePartida[]}>({});
   const [loadingSumula, setLoadingSumula] = useState(false);
 
-  useEffect(() => {
-    carregarGrupos();
-    carregarAssociados();
-  }, []);
-
-  useEffect(() => {
-    if (grupos.length > 0) {
-      carregarRodadas();
-    }
-  }, [dataAtual, filtroPeriodicidade, grupos]);
-
-  const carregarGrupos = async () => {
-    try {
-      const response = await api.get("/grupos");
-      setGrupos(response.data);
-    } catch (error) {
-      console.error("Erro ao carregar grupos:", error);
-    }
-  };
-
-  const carregarAssociados = async () => {
-    try {
-      const response = await api.get("/associados");
-      setAssociados(response.data);
-    } catch (error) {
-      console.error("Erro ao carregar associados:", error);
-    }
-  };
-
-  const carregarRodadas = async () => {
+  const carregarRodadas = useCallback(async () => {
     try {
       const inicio = startOfMonth(dataAtual).toISOString().split("T")[0];
       const fim = endOfMonth(dataAtual).toISOString().split("T")[0];
 
       const params: any = { inicio, fim };
-      
+
       // Se houver filtro de periodicidade, buscar grupos com essa periodicidade primeiro
       if (filtroPeriodicidade !== "todos") {
         const gruposFiltrados = grupos.filter(g => g.periodicidade === filtroPeriodicidade);
@@ -85,7 +56,36 @@ const Calendario: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  }, [dataAtual, filtroPeriodicidade, grupos]);
+
+  const carregarGrupos = async () => {
+    try {
+      const response = await api.get("/grupos");
+      setGrupos(response.data);
+    } catch (error) {
+      console.error("Erro ao carregar grupos:", error);
+    }
   };
+
+  const carregarAssociados = async () => {
+    try {
+      const response = await api.get("/associados");
+      setAssociados(response.data);
+    } catch (error) {
+      console.error("Erro ao carregar associados:", error);
+    }
+  };
+
+  useEffect(() => {
+    carregarGrupos();
+    carregarAssociados();
+  }, []);
+
+  useEffect(() => {
+    if (grupos.length > 0) {
+      carregarRodadas();
+    }
+  }, [dataAtual, filtroPeriodicidade, grupos, carregarRodadas]);
 
   const diasDoMes = eachDayOfInterval({
     start: startOfMonth(dataAtual),

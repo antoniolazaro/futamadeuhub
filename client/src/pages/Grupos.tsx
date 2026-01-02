@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
-import { Grupo, GrupoCompleto, Associado, AssociadoGrupo } from '../types';
+import { Grupo, GrupoCompleto, Associado } from '../types';
 
 const Grupos: React.FC = () => {
   const [grupos, setGrupos] = useState<Grupo[]>([]);
