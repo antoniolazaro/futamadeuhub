@@ -10,7 +10,10 @@
     "build": "cd client && npm run build",
     "build:server": "cd server && npm run build",
     "install:all": "npm install && cd server && npm install && cd ../client && npm install",
-    "vercel-build": "npm run build:server && npm run build"
+    "populate": "cd server && npm run populate",
+    "vercel-build": "npm run build:server && npm run build",
+    "deploy:populate": "npm run build:server && node -e \"require('./server/dist/scripts/populateFakeData.js').popularDadosFake().then(() => console.log('✅ Banco populado!')).catch(console.error)\"",
+    "setup-db": "node deploy-setup.js"
   },
   "keywords": ["futebol", "pelada", "gestão", "esportes", "amador"],
   "author": "PeladaHub",

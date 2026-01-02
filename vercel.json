@@ -22,7 +22,12 @@
       "src": "/(.*)",
       "dest": "/client/$1"
     }
-  ]
+  ],
+  "functions": {
+    "server/src/index.ts": {
+      "maxDuration": 10
+    }
+  }
 }
 
 
