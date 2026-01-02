@@ -205,3 +205,4 @@ O **Calendário com Súmulas** transformou uma simples visualização de datas e
 - 🎯 **Experiência fluida**
 
 **Experimente clicar em qualquer dia com jogos no calendário!** ⚽🎮
+
